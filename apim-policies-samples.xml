@@ -1,0 +1,237 @@
+<!-- 
+    Sample APIM Policies for JumpingFox API Rate Limiting
+    Apply these policies in Azure API Management to test different rate limiting scenarios
+-->
+
+<!-- EXAMPLE 1: Basic Subscription-based Rate Limiting -->
+<policies>
+    <inbound>
+        <base />
+        <!-- Allow 100 calls per minute per subscription -->
+        <rate-limit-by-subscription calls="100" renewal-period="60" />
+        
+        <!-- Add correlation ID for tracking -->
+        <set-header name="X-Correlation-Id" exists-action="override">
+            <value>@(Guid.NewGuid().ToString())</value>
+        </set-header>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <!-- Add rate limit headers for debugging -->
+        <set-header name="X-RateLimit-Limit" exists-action="override">
+            <value>100</value>
+        </set-header>
+        <set-header name="X-RateLimit-Remaining" exists-action="override">
+            <value>@(context.Response.Headers.GetValueOrDefault("X-RateLimit-Remaining","unknown"))</value>
+        </set-header>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+
+<!-- EXAMPLE 2: IP-based Rate Limiting -->
+<policies>
+    <inbound>
+        <base />
+        <!-- Allow 50 calls per minute per IP address -->
+        <rate-limit-by-key calls="50" renewal-period="60" counter-key="@(context.Request.IpAddress)" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+
+<!-- EXAMPLE 3: Endpoint-specific Rate Limiting -->
+<policies>
+    <inbound>
+        <base />
+        <!-- Different rate limits based on endpoint -->
+        <choose>
+            <!-- Fast endpoint - high frequency allowed -->
+            <when condition="@(context.Request.Url.Path.Contains("/api/test/fast"))">
+                <rate-limit-by-subscription calls="1000" renewal-period="60" />
+            </when>
+            <!-- Slow endpoint - limited frequency -->
+            <when condition="@(context.Request.Url.Path.Contains("/api/test/slow"))">
+                <rate-limit-by-subscription calls="10" renewal-period="60" />
+            </when>
+            <!-- Memory intensive endpoint - very limited -->
+            <when condition="@(context.Request.Url.Path.Contains("/api/test/memory-intensive"))">
+                <rate-limit-by-subscription calls="5" renewal-period="60" />
+            </when>
+            <!-- Batch operations - moderate limits -->
+            <when condition="@(context.Request.Url.Path.Contains("/api/test/batch"))">
+                <rate-limit-by-subscription calls="20" renewal-period="60" />
+            </when>
+            <!-- Analytics endpoints - limited for expensive operations -->
+            <when condition="@(context.Request.Url.Path.Contains("/api/jump/stats"))">
+                <rate-limit-by-subscription calls="30" renewal-period="60" />
+            </when>
+            <!-- Default rate limit for other endpoints -->
+            <otherwise>
+                <rate-limit-by-subscription calls="100" renewal-period="60" />
+            </otherwise>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+
+<!-- EXAMPLE 4: Client ID based Rate Limiting -->
+<policies>
+    <inbound>
+        <base />
+        <!-- Extract client ID from header or use IP as fallback -->
+        <set-variable name="clientId" value="@{
+            string clientHeader = context.Request.Headers.GetValueOrDefault("X-Client-Id", "");
+            return !string.IsNullOrEmpty(clientHeader) ? clientHeader : context.Request.IpAddress;
+        }" />
+        
+        <!-- Rate limit based on client ID -->
+        <rate-limit-by-key calls="200" renewal-period="60" counter-key="@((string)context.Variables["clientId"])" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <!-- Add client info to response -->
+        <set-header name="X-Client-Id" exists-action="override">
+            <value>@((string)context.Variables["clientId"])</value>
+        </set-header>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+
+<!-- EXAMPLE 5: Tiered Rate Limiting (Different limits for different subscription tiers) -->
+<policies>
+    <inbound>
+        <base />
+        <!-- Define rate limits based on subscription tier -->
+        <choose>
+            <when condition="@(context.Subscription.Name.Contains("premium"))">
+                <rate-limit-by-subscription calls="1000" renewal-period="60" />
+            </when>
+            <when condition="@(context.Subscription.Name.Contains("standard"))">
+                <rate-limit-by-subscription calls="500" renewal-period="60" />
+            </when>
+            <otherwise>
+                <!-- Basic tier -->
+                <rate-limit-by-subscription calls="100" renewal-period="60" />
+            </otherwise>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <!-- Add subscription tier info -->
+        <set-header name="X-Subscription-Tier" exists-action="override">
+            <value>@{
+                string subName = context.Subscription.Name;
+                if (subName.Contains("premium")) return "Premium";
+                if (subName.Contains("standard")) return "Standard";
+                return "Basic";
+            }</value>
+        </set-header>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+
+<!-- EXAMPLE 6: Quota-based Rate Limiting (Monthly quotas) -->
+<policies>
+    <inbound>
+        <base />
+        <!-- Monthly quota: 100,000 calls per subscription per month -->
+        <quota-by-subscription calls="100000" renewal-period="2592000" />
+        
+        <!-- Per-minute rate limiting within the quota -->
+        <rate-limit-by-subscription calls="200" renewal-period="60" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+
+<!-- EXAMPLE 7: Advanced Rate Limiting with Custom Response -->
+<policies>
+    <inbound>
+        <base />
+        <!-- Rate limit with custom error response -->
+        <rate-limit-by-subscription calls="100" renewal-period="60" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+        <!-- Custom response for rate limit exceeded -->
+        <choose>
+            <when condition="@(context.LastError.Reason == "RateLimitExceeded")">
+                <return-response>
+                    <set-status code="429" reason="Too Many Requests" />
+                    <set-header name="Retry-After" exists-action="override">
+                        <value>60</value>
+                    </set-header>
+                    <set-body>@{
+                        return new JObject(
+                            new JProperty("success", false),
+                            new JProperty("message", "Rate limit exceeded. Please try again later."),
+                            new JProperty("retryAfter", 60),
+                            new JProperty("timestamp", DateTime.UtcNow)
+                        ).ToString();
+                    }</set-body>
+                </return-response>
+            </when>
+        </choose>
+    </on-error>
+</policies>
+
+<!-- 
+    How to apply these policies:
+    
+    1. In Azure Portal, go to your APIM instance
+    2. Navigate to APIs → Your JumpingFox API
+    3. Select the operation or API level
+    4. Click on the "Policy" section
+    5. Copy and paste the relevant policy XML
+    6. Modify the rate limits as needed for your testing
+    7. Save the policy
+    
+    Testing suggestions:
+    - Use different policies for different operations
+    - Test with tools like Postman, curl, or the JumpingFox test endpoints
+    - Monitor the rate limits using the /api/test/metrics endpoint
+    - Use /api/test/metrics/reset to clear metrics between tests
+-->
