@@ -1,0 +1,28 @@
+{
+  "//": "JumpingFox Configuration Template",
+  "//": "Copy this file to config.json and update with your values",
+  "//": "DO NOT commit config.json to version control",
+  "azure": {
+    "subscriptionId": "your-subscription-id-here",
+    "resourceGroup": "rg-jumpingfox-aks",
+    "location": "East US",
+    "publisherEmail": "your-email@example.com",
+    "publisherName": "Your Name or Organization"
+  },
+  "apim": {
+    "name": "jumpingfox-apim-YYYYMMDD",
+    "gatewayUrl": "https://your-apim-name.azure-api.net",
+    "subscriptionKey": "your-subscription-key-here",
+    "apiName": "jumpingfox-api"
+  },
+  "aks": {
+    "clusterName": "jumpingfox-aks",
+    "backendUrl": "http://your-aks-ip-address",
+    "containerRegistry": "jumpingfoxacr"
+  },
+  "testing": {
+    "defaultRateLimit": 10,
+    "testRequests": 8,
+    "delaySeconds": 1
+  }
+}

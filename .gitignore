@@ -451,3 +451,25 @@ deploy-prod.ps1
 # Application logs
 logs/
 *.log
+
+# JumpingFox Security - Configuration files with sensitive data
+config.json
+config.local.json
+*.config.json
+
+# Azure credentials and keys
+.azure/
+azure-credentials.json
+subscription-keys.txt
+
+# PowerShell temporary files
+*.tmp.ps1
+temp-*.xml
+policy-body.json
+*-policy.xml
+swagger*.json
+!apim-policies-samples.xml
+
+# JumpingFox temporary test files
+test-output.txt
+test-results.json

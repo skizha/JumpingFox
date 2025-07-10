@@ -1,9 +1,30 @@
 # Get APIM Subscription Key and Test API
 param(
-    [string]$ResourceGroup = "rg-jumpingfox-aks",
-    [string]$ApimName = "jumpingfox-apim-$(Get-Date -Format 'yyyyMMdd')",
-    [string]$ApiName = "jumpingfox-api"
+    [string]$ResourceGroup,
+    [string]$ApimName,
+    [string]$ApiName,
+    [string]$ConfigPath = "config.json"
 )
+
+# Load configuration
+. .\Config.ps1
+
+try {
+    $config = Get-JumpingFoxConfig -ConfigPath $ConfigPath
+    
+    # Use provided parameters or fall back to config values
+    if (-not $ResourceGroup) { $ResourceGroup = $config.azure.resourceGroup }
+    if (-not $ApimName) { $ApimName = $config.apim.name }
+    if (-not $ApiName) { $ApiName = $config.apim.apiName }
+}
+catch {
+    Write-Host "❌ Failed to load configuration. Using default values." -ForegroundColor Red
+    
+    # Fallback to original hardcoded values if config fails
+    if (-not $ResourceGroup) { $ResourceGroup = "rg-jumpingfox-aks" }
+    if (-not $ApimName) { $ApimName = "jumpingfox-apim-$(Get-Date -Format 'yyyyMMdd')" }
+    if (-not $ApiName) { $ApiName = "jumpingfox-api" }
+}
 
 Write-Host "🔑 Getting APIM Subscription Key for Testing" -ForegroundColor Cyan
 Write-Host "=============================================" -ForegroundColor Cyan

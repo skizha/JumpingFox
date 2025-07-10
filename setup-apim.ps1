@@ -2,14 +2,43 @@
 # This script creates APIM and connects it to your AKS-deployed JumpingFox API
 
 param(
-    [string]$ResourceGroup = "rg-jumpingfox-aks",
-    [string]$Location = "East US", 
-    [string]$ApimName = "jumpingfox-apim-$(Get-Date -Format 'yyyyMMdd')",
-    [string]$PublisherEmail = "sanjesh.vasu@campuscloud.io",
-    [string]$PublisherName = "JumpingFox Team",
-    [string]$ApiName = "jumpingfox-api",
-    [string]$BackendUrl = "http://134.33.206.69"  # Your AKS LoadBalancer IP
+    [string]$ResourceGroup,
+    [string]$Location,
+    [string]$ApimName,
+    [string]$PublisherEmail,
+    [string]$PublisherName,
+    [string]$ApiName,
+    [string]$BackendUrl,
+    [string]$ConfigPath = "config.json"
 )
+
+# Load configuration
+. .\Config.ps1
+
+try {
+    $config = Get-JumpingFoxConfig -ConfigPath $ConfigPath
+    
+    # Use provided parameters or fall back to config values
+    if (-not $ResourceGroup) { $ResourceGroup = $config.azure.resourceGroup }
+    if (-not $Location) { $Location = $config.azure.location }
+    if (-not $ApimName) { $ApimName = $config.apim.name }
+    if (-not $PublisherEmail) { $PublisherEmail = $config.azure.publisherEmail }
+    if (-not $PublisherName) { $PublisherName = $config.azure.publisherName }
+    if (-not $ApiName) { $ApiName = $config.apim.apiName }
+    if (-not $BackendUrl) { $BackendUrl = $config.aks.backendUrl }
+}
+catch {
+    Write-Host "❌ Failed to load configuration. Using default/provided values." -ForegroundColor Red
+    
+    # Fallback to original hardcoded values if config fails
+    if (-not $ResourceGroup) { $ResourceGroup = "rg-jumpingfox-aks" }
+    if (-not $Location) { $Location = "East US" }
+    if (-not $ApimName) { $ApimName = "jumpingfox-apim-$(Get-Date -Format 'yyyyMMdd')" }
+    if (-not $PublisherEmail) { $PublisherEmail = "admin@example.com" }
+    if (-not $PublisherName) { $PublisherName = "JumpingFox Team" }
+    if (-not $ApiName) { $ApiName = "jumpingfox-api" }
+    if (-not $BackendUrl) { $BackendUrl = "http://localhost" }
+}
 
 Write-Host "🚀 Setting up Azure API Management for JumpingFox AKS Deployment" -ForegroundColor Cyan
 Write-Host "=================================================================" -ForegroundColor Cyan

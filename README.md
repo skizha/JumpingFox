@@ -2,6 +2,40 @@
 
 A .NET 8 Web API designed specifically for testing Azure API Management (APIM) rate limiting features. This application provides various endpoints with different characteristics to comprehensively test rate limiting scenarios.
 
+## 🔐 Security & Configuration
+
+**⚠️ IMPORTANT**: This repository contains scripts that work with Azure resources and API keys. Before using:
+
+1. **Never commit sensitive data** - All configuration files are excluded from version control
+2. **Use configuration files** - Copy `config.template.json` to `config.json` and update with your values
+3. **Run setup script** - Use `.\setup-config.ps1` for interactive configuration setup
+
+### Quick Start - Configuration Setup
+
+```powershell
+# 1. Clone the repository
+git clone https://github.com/your-username/JumpingFox.git
+cd JumpingFox
+
+# 2. Set up configuration (interactive)
+.\setup-config.ps1
+
+# 3. Deploy to AKS
+.\deploy-aks.ps1
+
+# 4. Set up APIM
+.\setup-apim.ps1
+
+# 5. Test rate limiting
+.\test-rate-limit.ps1
+```
+
+### Configuration Files
+
+- `config.template.json` - Template with placeholder values (safe to commit)
+- `config.json` - Your actual configuration with real values (DO NOT COMMIT)
+- `.gitignore` - Protects sensitive files from being committed
+
 ## Features
 
 ### 🦊 Fox Management API
