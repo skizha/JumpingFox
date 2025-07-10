@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "JumpingFox API",
-    "description": "Complete API testing collection for JumpingFox application",
+    "description": "Complete API testing collection for JumpingFox application - Updated with correct APIM URLs",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -38,7 +38,7 @@
       "response": []
     },
     {
-      "name": "Get All Foxes",
+      "name": "Get All Foxes (APIM)",
       "request": {
         "method": "GET",
         "header": [
@@ -49,15 +49,15 @@
           }
         ],
         "url": {
-          "raw": "{{apim_base_url}}/api/fox",
+          "raw": "{{apim_base_url}}/api/api/Fox",
           "host": ["{{apim_base_url}}"],
-          "path": ["api", "fox"]
+          "path": ["api", "api", "Fox"]
         }
       },
       "response": []
     },
     {
-      "name": "Get Fox by ID",
+      "name": "Get Fox by ID (APIM)",
       "request": {
         "method": "GET",
         "header": [
@@ -68,15 +68,15 @@
           }
         ],
         "url": {
-          "raw": "{{apim_base_url}}/api/fox/1",
+          "raw": "{{apim_base_url}}/api/api/Fox/1",
           "host": ["{{apim_base_url}}"],
-          "path": ["api", "fox", "1"]
+          "path": ["api", "api", "Fox", "1"]
         }
       },
       "response": []
     },
     {
-      "name": "Create New Fox",
+      "name": "Create New Fox (APIM)",
       "request": {
         "method": "POST",
         "header": [
@@ -96,15 +96,15 @@
           "raw": "{\n  \"name\": \"Rusty\",\n  \"age\": 3,\n  \"color\": \"Red\",\n  \"jumpHeight\": 1.5\n}"
         },
         "url": {
-          "raw": "{{apim_base_url}}/api/fox",
+          "raw": "{{apim_base_url}}/api/api/Fox",
           "host": ["{{apim_base_url}}"],
-          "path": ["api", "fox"]
+          "path": ["api", "api", "Fox"]
         }
       },
       "response": []
     },
     {
-      "name": "Get All Jump Records",
+      "name": "Get All Jump Records (APIM)",
       "request": {
         "method": "GET",
         "header": [
@@ -115,15 +115,15 @@
           }
         ],
         "url": {
-          "raw": "{{apim_base_url}}/api/jump",
+          "raw": "{{apim_base_url}}/api/api/Jump",
           "host": ["{{apim_base_url}}"],
-          "path": ["api", "jump"]
+          "path": ["api", "api", "Jump"]
         }
       },
       "response": []
     },
     {
-      "name": "Get Jump Statistics",
+      "name": "Get Jump Statistics (APIM)",
       "request": {
         "method": "GET",
         "header": [
@@ -134,15 +134,15 @@
           }
         ],
         "url": {
-          "raw": "{{apim_base_url}}/api/jump/stats",
+          "raw": "{{apim_base_url}}/api/api/Jump/stats",
           "host": ["{{apim_base_url}}"],
-          "path": ["api", "jump", "stats"]
+          "path": ["api", "api", "Jump", "stats"]
         }
       },
       "response": []
     },
     {
-      "name": "Create Jump Record",
+      "name": "Create Jump Record (APIM)",
       "request": {
         "method": "POST",
         "header": [
@@ -162,15 +162,15 @@
           "raw": "{\n  \"foxId\": 1,\n  \"height\": 2.5,\n  \"distance\": 3.2,\n  \"timestamp\": \"2025-07-10T10:30:00Z\"\n}"
         },
         "url": {
-          "raw": "{{apim_base_url}}/api/jump",
+          "raw": "{{apim_base_url}}/api/api/Jump",
           "host": ["{{apim_base_url}}"],
-          "path": ["api", "jump"]
+          "path": ["api", "api", "Jump"]
         }
       },
       "response": []
     },
     {
-      "name": "Test Fast Endpoint",
+      "name": "Test Fast Endpoint (APIM)",
       "request": {
         "method": "GET",
         "header": [
@@ -181,47 +181,73 @@
           }
         ],
         "url": {
-          "raw": "{{apim_base_url}}/api/test/fast",
+          "raw": "{{apim_base_url}}/api/api/Test/fast",
           "host": ["{{apim_base_url}}"],
+          "path": ["api", "api", "Test", "fast"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Test Slow Endpoint (APIM)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/api/Test/slow",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "api", "Test", "slow"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Test Error Endpoint (APIM)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/api/Test/error/404",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "api", "Test", "error", "404"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Foxes (Direct Backend)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{backend_base_url}}/api/fox",
+          "host": ["{{backend_base_url}}"],
+          "path": ["api", "fox"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Test Fast Endpoint (Direct Backend)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{backend_base_url}}/api/test/fast",
+          "host": ["{{backend_base_url}}"],
           "path": ["api", "test", "fast"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Test Slow Endpoint",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Ocp-Apim-Subscription-Key",
-            "value": "{{subscription_key}}",
-            "type": "text"
-          }
-        ],
-        "url": {
-          "raw": "{{apim_base_url}}/api/test/slow",
-          "host": ["{{apim_base_url}}"],
-          "path": ["api", "test", "slow"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Test Error Endpoint",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Ocp-Apim-Subscription-Key",
-            "value": "{{subscription_key}}",
-            "type": "text"
-          }
-        ],
-        "url": {
-          "raw": "{{apim_base_url}}/api/test/error",
-          "host": ["{{apim_base_url}}"],
-          "path": ["api", "test", "error"]
         }
       },
       "response": []

@@ -1,10 +1,14 @@
 name: Build and Deploy JumpingFox API
 
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+# DISABLED: GitHub Actions deployment disabled for public release
+# To re-enable: remove the following line and uncomment the 'on' section below
+on: workflow_dispatch
+
+# on:
+#   push:
+#     branches: [ main, develop ]
+#   pull_request:
+#     branches: [ main ]
 
 env:
   DOTNET_VERSION: '8.0.x'

@@ -2,7 +2,11 @@
 
 A .NET 8 Web API designed specifically for testing Azure API Management (APIM) rate limiting features. This application provides various endpoints with different characteristics to comprehensively test rate limiting scenarios.
 
-## 🔐 Security & Configuration
+## � Deployment Notice
+
+**GitHub Actions deployments are disabled** for this public repository to prevent accidental deployments. See [GITHUB-ACTIONS-DISABLED.md](GITHUB-ACTIONS-DISABLED.md) for details on how to re-enable them for your own deployments.
+
+## �🔐 Security & Configuration
 
 **⚠️ IMPORTANT**: This repository contains scripts that work with Azure resources and API keys. Before using:
 

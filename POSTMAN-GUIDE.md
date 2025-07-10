@@ -19,26 +19,33 @@ From your `config.json` file, you'll need:
 ### Health Check Endpoint
 - **URL**: `/api/health`
 - **Method**: `GET`
+- **APIM URL**: `https://jumpingfox-apim-20250709.azure-api.net/api/health`
 - **Description**: Simple health check (rate limited to 3 requests/minute via APIM)
 
 ### Fox Controller Endpoints
-- **GET** `/api/fox` - Get all foxes
-- **GET** `/api/fox/{id}` - Get specific fox by ID
-- **POST** `/api/fox` - Create a new fox
-- **PUT** `/api/fox/{id}` - Update existing fox
-- **DELETE** `/api/fox/{id}` - Delete fox
+- **GET** `/api/api/Fox` - Get all foxes
+- **GET** `/api/api/Fox/{id}` - Get specific fox by ID
+- **POST** `/api/api/Fox` - Create a new fox
+- **PUT** `/api/api/Fox/{id}` - Update existing fox
+- **DELETE** `/api/api/Fox/{id}` - Delete fox
 
 ### Jump Controller Endpoints
-- **GET** `/api/jump` - Get all jump records
-- **GET** `/api/jump/fox/{foxId}` - Get jumps for specific fox
-- **POST** `/api/jump` - Create new jump record
-- **GET** `/api/jump/stats` - Get jump statistics
+- **GET** `/api/api/Jump` - Get all jump records
+- **GET** `/api/api/Jump/fox/{foxId}` - Get jumps for specific fox
+- **POST** `/api/api/Jump` - Create new jump record
+- **GET** `/api/api/Jump/stats` - Get jump statistics
 
 ### Test Controller Endpoints
-- **GET** `/api/test/fast` - Fast response endpoint
-- **GET** `/api/test/slow` - Slow response endpoint (includes delay)
-- **GET** `/api/test/error` - Error testing endpoint
-- **GET** `/api/test/load` - Load testing endpoint
+- **GET** `/api/api/Test/fast` - Fast response endpoint
+- **GET** `/api/api/Test/slow` - Slow response endpoint (includes delay)
+- **GET** `/api/api/Test/error/{errorType}` - Error testing endpoint
+- **GET** `/api/api/Test/load` - Load testing endpoint
+
+## 🔍 IMPORTANT: URL Structure
+**APIM uses a double `/api/` prefix for most endpoints!**
+- Health: `/api/health` (exception)
+- All others: `/api/api/ControllerName` (note the double /api/)
+- Controllers are capitalized: `Fox`, `Jump`, `Test`
 
 ## 🔧 Setting Up Postman
 
@@ -87,23 +94,23 @@ Headers: Ocp-Apim-Subscription-Key: 9612af95b175494a90156d864d8c6b65
 ```
 **Expected**: 200 OK for first 3 requests, then 429 (rate limited)
 
-### 2. Get All Foxes
+### 2. Get All Foxes ✅ FIXED!
 ```
-GET https://jumpingfox-apim-20250709.azure-api.net/api/fox
+GET https://jumpingfox-apim-20250709.azure-api.net/api/api/Fox
 Headers: Ocp-Apim-Subscription-Key: 9612af95b175494a90156d864d8c6b65
 ```
 **Expected**: 200 OK with JSON array of foxes
 
 ### 3. Get Specific Fox
 ```
-GET https://jumpingfox-apim-20250709.azure-api.net/api/fox/1
+GET https://jumpingfox-apim-20250709.azure-api.net/api/api/Fox/1
 Headers: Ocp-Apim-Subscription-Key: 9612af95b175494a90156d864d8c6b65
 ```
 **Expected**: 200 OK with fox details or 404 if not found
 
 ### 4. Create New Fox (POST)
 ```
-POST https://jumpingfox-apim-20250709.azure-api.net/api/fox
+POST https://jumpingfox-apim-20250709.azure-api.net/api/api/Fox
 Headers: 
   - Ocp-Apim-Subscription-Key: 9612af95b175494a90156d864d8c6b65
   - Content-Type: application/json
@@ -118,16 +125,16 @@ Body (JSON):
 ```
 **Expected**: 201 Created with the new fox details
 
-### 5. Fast Test Endpoint
+### 5. Fast Test Endpoint ✅ FIXED!
 ```
-GET https://jumpingfox-apim-20250709.azure-api.net/api/test/fast
+GET https://jumpingfox-apim-20250709.azure-api.net/api/api/Test/fast
 Headers: Ocp-Apim-Subscription-Key: 9612af95b175494a90156d864d8c6b65
 ```
 **Expected**: 200 OK with fast response
 
-### 6. Slow Test Endpoint
+### 6. Slow Test Endpoint ✅ FIXED!
 ```
-GET https://jumpingfox-apim-20250709.azure-api.net/api/test/slow
+GET https://jumpingfox-apim-20250709.azure-api.net/api/api/Test/slow
 Headers: Ocp-Apim-Subscription-Key: 9612af95b175494a90156d864d8c6b65
 ```
 **Expected**: 200 OK with delayed response (includes processing time)
