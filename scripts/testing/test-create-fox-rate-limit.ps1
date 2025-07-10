@@ -8,8 +8,8 @@ param(
 
 # Load configuration
 try {
-    . "$PSScriptRoot\Config.ps1"
-    $config = Get-JumpingFoxConfig -ConfigPath $ConfigPath
+    . "$PSScriptRoot\..\..\Config.ps1"
+    $config = Get-JumpingFoxConfig -ConfigPath "$PSScriptRoot\..\..\$ConfigPath"
     Write-Host "✅ Configuration loaded from $ConfigPath" -ForegroundColor Green
 }
 catch {

@@ -5,10 +5,10 @@ Write-Host "🔧 JumpingFox Configuration Setup" -ForegroundColor Cyan
 Write-Host "=================================" -ForegroundColor Cyan
 
 # Load configuration helper
-. .\Config.ps1
+. "$PSScriptRoot\..\..\Config.ps1"
 
 # Check if config already exists
-if (Test-Path "config.json") {
+if (Test-Path "$PSScriptRoot\..\..\config.json") {
     Write-Host "⚠️  Configuration file already exists." -ForegroundColor Yellow
     $choice = Read-Host "Do you want to (O)verwrite, (V)iew current, or (E)xit? [O/V/E]"
     

@@ -22,13 +22,13 @@ git clone https://github.com/your-username/JumpingFox.git
 cd JumpingFox
 
 # 2. Set up configuration (interactive)
-.\setup-config.ps1
+.\scripts\setup\setup-config.ps1
 
 # 3. Deploy to Azure
-.\deploy.ps1
+.\scripts\deployment\deploy.ps1
 
 # 4. Test the API endpoints
-.\test-apim-rate-limits.ps1
+.\scripts\testing\test-apim-rate-limits.ps1
 ```
 
 ### Configuration Files
@@ -36,6 +36,17 @@ cd JumpingFox
 - `config.template.json` - Template with placeholder values (safe to commit)
 - `config.json` - Your actual configuration with real values (DO NOT COMMIT)
 - `.gitignore` - Protects sensitive files from being committed
+
+## 📁 Scripts Organization
+
+All PowerShell scripts are organized in the `scripts/` directory by category:
+
+- **`scripts/setup/`** - Initial setup and configuration scripts
+- **`scripts/deployment/`** - Deployment scripts for various Azure services
+- **`scripts/testing/`** - API and rate limiting testing scripts
+- **`scripts/utilities/`** - Utility and maintenance scripts
+
+See [`scripts/README.md`](scripts/README.md) for detailed information about each script.
 
 ## Features
 

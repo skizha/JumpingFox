@@ -10,7 +10,7 @@ param(
 
 # Load configuration from config.json
 try {
-    . "$PSScriptRoot\Config.ps1"
+    . "$PSScriptRoot\..\..\Config.ps1"
     $config = Get-JumpingFoxConfig
     
     if ([string]::IsNullOrEmpty($ApimGatewayUrl)) {

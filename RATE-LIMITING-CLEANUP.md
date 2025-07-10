@@ -23,9 +23,9 @@ The following rate limiting configuration files and policy application scripts h
 The following testing scripts are preserved for future use:
 
 ### Testing Scripts:
-- `test-rate-limit.ps1` - Basic rate limit testing
-- `test-apim-rate-limits.ps1` - Comprehensive APIM rate limit testing
-- `test-create-fox-rate-limit.ps1` - Create Fox specific rate limit testing
+- `scripts/testing/test-rate-limit.ps1` - Basic rate limit testing
+- `scripts/testing/test-apim-rate-limits.ps1` - Comprehensive APIM rate limit testing
+- `scripts/testing/test-create-fox-rate-limit.ps1` - Create Fox specific rate limit testing
 
 ## Next Steps
 
