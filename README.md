@@ -24,14 +24,11 @@ cd JumpingFox
 # 2. Set up configuration (interactive)
 .\setup-config.ps1
 
-# 3. Deploy to AKS
-.\deploy-aks.ps1
+# 3. Deploy to Azure
+.\deploy.ps1
 
-# 4. Set up APIM
-.\setup-apim.ps1
-
-# 5. Test rate limiting
-.\test-rate-limit.ps1
+# 4. Test the API endpoints
+.\test-apim-rate-limits.ps1
 ```
 
 ### Configuration Files
@@ -152,9 +149,11 @@ dotnet test  # Add tests as needed
 
 The repository is ready for GitHub Actions deployment. Create workflow files in `.github/workflows/` for automated deployments.
 
-## APIM Configuration Examples
+## APIM Configuration
 
 ### Rate Limiting Policy Examples:
+
+You can configure APIM rate limiting policies in the Azure Portal. Here are some examples:
 
 ```xml
 <!-- Per-subscription rate limiting -->
