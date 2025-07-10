@@ -35,15 +35,13 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments for this testing API
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "JumpingFox API v1");
-        c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "JumpingFox API v1");
+    c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
+});
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
