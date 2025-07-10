@@ -1,0 +1,279 @@
+{
+  "info": {
+    "name": "JumpingFox API",
+    "description": "Complete API testing collection for JumpingFox application",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check (APIM)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/health",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "health"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Health Check (Direct Backend)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{backend_base_url}}/api/health",
+          "host": ["{{backend_base_url}}"],
+          "path": ["api", "health"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Foxes",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/fox",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "fox"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Fox by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/fox/1",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "fox", "1"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create New Fox",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Rusty\",\n  \"age\": 3,\n  \"color\": \"Red\",\n  \"jumpHeight\": 1.5\n}"
+        },
+        "url": {
+          "raw": "{{apim_base_url}}/api/fox",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "fox"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Jump Records",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/jump",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "jump"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Jump Statistics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/jump/stats",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "jump", "stats"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Jump Record",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"foxId\": 1,\n  \"height\": 2.5,\n  \"distance\": 3.2,\n  \"timestamp\": \"2025-07-10T10:30:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{apim_base_url}}/api/jump",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "jump"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Test Fast Endpoint",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/test/fast",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "test", "fast"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Test Slow Endpoint",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/test/slow",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "test", "slow"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Test Error Endpoint",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Ocp-Apim-Subscription-Key",
+            "value": "{{subscription_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{apim_base_url}}/api/test/error",
+          "host": ["{{apim_base_url}}"],
+          "path": ["api", "test", "error"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Add timestamp to requests",
+          "pm.globals.set('timestamp', new Date().toISOString());"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Common tests for all requests",
+          "pm.test('Response time is less than 5000ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "// Test for successful responses",
+          "if (pm.response.code === 200) {",
+          "    pm.test('Response has success field', function () {",
+          "        const jsonData = pm.response.json();",
+          "        pm.expect(jsonData).to.have.property('success');",
+          "    });",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "apim_base_url",
+      "value": "https://jumpingfox-apim-20250709.azure-api.net",
+      "type": "string"
+    },
+    {
+      "key": "backend_base_url",
+      "value": "http://134.33.206.69",
+      "type": "string"
+    },
+    {
+      "key": "subscription_key",
+      "value": "9612af95b175494a90156d864d8c6b65",
+      "type": "string"
+    }
+  ]
+}

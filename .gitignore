@@ -473,3 +473,4 @@ swagger*.json
 # JumpingFox temporary test files
 test-output.txt
 test-results.json
+JumpingFox-Environment.postman_environment.json

@@ -20,12 +20,15 @@ try {
     if (-not $DelaySeconds) { $DelaySeconds = $config.testing.delaySeconds }
 }
 catch {
-    Write-Host "❌ Failed to load configuration. Using default values." -ForegroundColor Red
-    Write-Host "   Run Initialize-JumpingFoxConfig to create config.json" -ForegroundColor Yellow
+    Write-Host "❌ Failed to load configuration. Please create config.json first." -ForegroundColor Red
+    Write-Host "   Run: .\setup-config.ps1" -ForegroundColor Yellow
     
-    # Fallback to original hardcoded values if config fails
-    if (-not $ApiUrl) { $ApiUrl = "https://jumpingfox-apim-20250709.azure-api.net/api/health" }
-    if (-not $SubscriptionKey) { $SubscriptionKey = "9612af95b175494a90156d864d8c6b65" }
+    # Fallback values (no sensitive data)
+    if (-not $ApiUrl) { $ApiUrl = "https://your-apim-name.azure-api.net/api/health" }
+    if (-not $SubscriptionKey) { 
+        Write-Host "❌ Subscription key required. Please provide it as parameter or create config.json" -ForegroundColor Red
+        exit 1
+    }
     if (-not $NumRequests) { $NumRequests = 8 }
     if (-not $DelaySeconds) { $DelaySeconds = 1 }
 }

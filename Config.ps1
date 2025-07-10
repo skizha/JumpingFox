@@ -103,6 +103,3 @@ function Test-JumpingFoxConfig {
         return $false
     }
 }
-
-# Export functions for use in other scripts
-Export-ModuleMember -Function Get-JumpingFoxConfig, Initialize-JumpingFoxConfig, Test-JumpingFoxConfig

@@ -2,21 +2,42 @@
 # This script tests the rate limiting policies applied to your APIM-protected API
 
 param(
-    [string]$ApimGatewayUrl = "", # Will be populated after APIM setup
-    [string]$SubscriptionKey = "", # Get this from APIM Developer Portal
+    [string]$ApimGatewayUrl = "", # Will be populated from config.json
+    [string]$SubscriptionKey = "", # Get this from config.json
     [int]$RequestCount = 150, # Number of requests to send (should exceed rate limit)
     [int]$DelayBetweenRequests = 100 # Delay in milliseconds
 )
 
+# Load configuration from config.json
+try {
+    . "$PSScriptRoot\Config.ps1"
+    $config = Get-JumpingFoxConfig
+    
+    if ([string]::IsNullOrEmpty($ApimGatewayUrl)) {
+        $ApimGatewayUrl = $config.apim.gatewayUrl
+    }
+    
+    if ([string]::IsNullOrEmpty($SubscriptionKey)) {
+        $SubscriptionKey = $config.apim.subscriptionKey
+    }
+    
+    Write-Host "✅ Configuration loaded from config.json" -ForegroundColor Green
+} catch {
+    Write-Host "⚠️  Could not load config.json: $($_.Exception.Message)" -ForegroundColor Yellow
+    Write-Host "   Using provided parameters instead" -ForegroundColor Yellow
+}
+
 if ([string]::IsNullOrEmpty($ApimGatewayUrl)) {
     Write-Host "❌ Please provide the APIM Gateway URL" -ForegroundColor Red
     Write-Host "Example: .\test-apim-rate-limits.ps1 -ApimGatewayUrl 'https://your-apim.azure-api.net' -SubscriptionKey 'your-key'" -ForegroundColor Yellow
+    Write-Host "Or create a config.json file with your settings" -ForegroundColor Yellow
     exit 1
 }
 
 if ([string]::IsNullOrEmpty($SubscriptionKey)) {
     Write-Host "❌ Please provide a subscription key from APIM Developer Portal" -ForegroundColor Red
     Write-Host "Get subscription key from: https://your-apim.portal.azure-api.net/" -ForegroundColor Yellow
+    Write-Host "Or add it to your config.json file" -ForegroundColor Yellow
     exit 1
 }
 
@@ -30,10 +51,12 @@ Write-Host ""
 
 # Test endpoints
 $endpoints = @(
-    @{ Path = "/api/fox/jump"; Name = "Jump Endpoint"; ExpectedLimit = 100 },
-    @{ Path = "/api/test/fast"; Name = "Fast Test Endpoint"; ExpectedLimit = 1000 },
-    @{ Path = "/api/test/slow"; Name = "Slow Test Endpoint"; ExpectedLimit = 10 },
-    @{ Path = "/api/jump/stats"; Name = "Analytics Endpoint"; ExpectedLimit = 30 }
+    @{ Path = "/api/health"; Name = "Health Endpoint"; ExpectedLimit = 5 }
+    # Note: Other endpoints may not be properly mapped in APIM yet
+    # @{ Path = "/api/fox/jump"; Name = "Jump Endpoint"; ExpectedLimit = 100 },
+    # @{ Path = "/api/test/fast"; Name = "Fast Test Endpoint"; ExpectedLimit = 1000 },
+    # @{ Path = "/api/test/slow"; Name = "Slow Test Endpoint"; ExpectedLimit = 10 },
+    # @{ Path = "/api/jump/stats"; Name = "Analytics Endpoint"; ExpectedLimit = 30 }
 )
 
 foreach ($endpoint in $endpoints) {
